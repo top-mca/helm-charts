@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: common-api-deploy
+  labels:
+    app: common-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: common-api
+      tier: pod
+  template:
+    metadata:
+      name: top-pod
+      labels:
+        app: common-api
+        tier: pod
+    spec:
+      containers:
+        - name: server
+          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.commonApi "distributed-tracing" }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - name: webserver
+              containerPort: 8091
+          envFrom:
+            - configMapRef:
+                name: in-cluster-config
+      imagePullSecrets:
+        - name: {{ .Values.global.imagePullSecrets }}

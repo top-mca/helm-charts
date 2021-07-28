@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: in-cluster-config
+data:
+  PROJECT: thinq-on-premise
+  MODULE_NAME_COMMON_API: common-api
+  MODULE_NAME_SERVICE_API: service-api
+  MODULE_NAME_DATA_MANAGER: data-manager
+  MODULE_NAME_PUSH_MANAGER: push-manager
+  MODULE_NAME_CLOUDLET: cloudlet
+  MODULE_NAME_IOT_API: iot-api
+  PHASE: st
+  COMMON_API_HOST: common-api-service.default.svc.cluster.local
+  COMMON_API_PORT: "8091"
+  COMMON_API_MYSQL_DB: top_common
+  COMMON_API_MYSQL_ID: top_common_service_account
+  COMMON_API_MYSQL_PW: onpremise
+  SERVICE_API_HOST: top-service-api-service.default.svc.cluster.local
+  SERVICE_API_PORT: "8093"
+  SERVICE_API_MYSQL_DB: top_service
+  SERVICE_API_MYSQL_ID: top_service_service_account
+  SERVICE_API_MYSQL_PW: onpremise
+  DATA_MANAGER_HOST: data-manager-service.default.svc.cluster.local
+  DATA_MANAGER_PORT: "8092"
+  AUTHORIZER_HOST: authorizer-service.default.svc.cluster.local
+  AUTHORIZER_PORT: "9096"
+  PUSH_MANAGER_HOST: push-manager-service.default.svc.cluster.local
+  PUSH_MANAGER_PORT: "8095"
+  CLOUDLET_HOST: cloudlet-service.default.svc.cluster.local
+  CLOUDLET_PORT: "8094"
+  IOT_API_HOST: iot-api-service.default.svc.cluster.local
+  IOT_API_PORT: "8090"
+  MQTT_BROKER_HOST: emqx-service.default.svc.cluster.local
+  MQTT_BROKER_EXTERNAL_HOST: a44ee158a041c45c6bbf8cbd928624c4-1349584076.ap-southeast-1.elb.amazonaws.com
+  MQTT_BROKER_PORT: "1883"
+  MQTT_BROKER_TLS_PORT: "8883"
+  MQTT_APP_PORT: "8081"
+  MQTT_APP_ID: admin
+  MQTT_APP_SECRET: public
+  REDIS_HOST: redis-service.default.svc.cluster.local
+  REDIS_PORT: "6379"
+  MONGO_HOST: mongo-service.default.svc.cluster.local
+  MONGO_PORT: "27017"
+  MYSQL_HOST: mysql-service.default.svc.cluster.local
+  MYSQL_PORT: "3306"
+  PROTOCOL_FILE_NAME: external/backend/101_2REB1GLSB__2_PROTOCOL_JSON.json
+  CONVERTING_FILE_NAME: external/backend/101_2REB1GLSB__2_CONVERT_JSON.json
+  TRACE_PROVIDER_HOST: otel-collector.observability.svc.cluster.local
+  TRACE_PROVIDER_PORT: "4317"
