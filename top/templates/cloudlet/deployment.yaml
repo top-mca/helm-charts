@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudlet-deploy
+  labels:
+    app: cloudlet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudlet
+      tier: pod
+  template:
+    metadata:
+      name: cloudlet-pod
+      labels:
+        app: cloudlet
+        tier: pod
+    spec:
+      containers:
+        - name: server
+          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.cloudlet.name .Values.module.cloudlet.tag }}
+          ports:
+            - name: cloudlet
+              containerPort: {{ .Values.module.cloudlet.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.global.configMap }}
+      imagePullSecrets:
+        - name: {{ .Values.global.imagePullSecrets }}

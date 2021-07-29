@@ -1,29 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: common-api-deploy
+  name: data-manager-deploy
   labels:
-    app: common-api
+    app: data-manager
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: common-api
+      app: data-manager
       tier: pod
   template:
     metadata:
-      name: top-pod
+      name: top-data-manager-pod
       labels:
-        app: common-api
+        app: data-manager
         tier: pod
     spec:
       containers:
-        - name: server
-          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.commonApi.name .Values.module.commonApi.tag }}
-          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+        - name:  data-manager
+          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.dataManager.name .Values.module.dataManager.tag }}
           ports:
             - name: webserver
-              containerPort: {{ .Values.module.commonApi.port }}
+              containerPort: {{ .Values.module.dataManager.port }}
           envFrom:
             - configMapRef:
                 name: {{ .Values.global.configMap }}

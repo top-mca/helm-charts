@@ -32,7 +32,7 @@ data:
   IOT_API_HOST: iot-api-service.default.svc.cluster.local
   IOT_API_PORT: "8090"
   MQTT_BROKER_HOST: emqx-service.default.svc.cluster.local
-  MQTT_BROKER_EXTERNAL_HOST: a44ee158a041c45c6bbf8cbd928624c4-1349584076.ap-southeast-1.elb.amazonaws.com
+  MQTT_BROKER_EXTERNAL_HOST: "10.177.176.100"
   MQTT_BROKER_PORT: "1883"
   MQTT_BROKER_TLS_PORT: "8883"
   MQTT_APP_PORT: "8081"

@@ -7,16 +7,37 @@ global:
   registryPort: "30050"
   imagePullSecrets: "regcred"
   imagePullPolicy: "IfNotPresent"
-  tag: ""
+  configMap: "in-cluster-config"
 
 module:
-  iotApi: "top/iot-api"
-  commonApi: "top/common-api"
-  dataManager: "top/data-manager"
-  serviceApi: "top/service-api"
-  cloudlet: "top/cloudlet"
-  pushManager: "top/push-manager"
-  simulator: "top/simulator"
+  iotApi:
+    name: "top/iot-api"
+    tag: "distributed-tracing"
+    port: "8090"
+  commonApi:
+    name: "top/common-api"
+    tag: "distributed-tracing"
+    port: "8091"
+  dataManager:
+    name: "top/data-manager"
+    tag: "distributed-tracing"
+    port: "8092"
+  serviceApi:
+    name: "top/service-api"
+    tag: "distributed-tracing"
+    port: "8093"
+  cloudlet:
+    name: "top/cloudlet"
+    tag: "tracing-v0.1.3"
+    port: "8094"
+  pushManager:
+    name: "top/push-manager"
+    tag: "distributed-tracing"
+    port: "8095"
+  simulator:
+    name: "top/simulator"
+    tag: ""
+    port: ""
 
 autoscaling:
   enabled: false

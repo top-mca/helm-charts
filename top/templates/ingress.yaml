@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-top
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"kubernetes.io/ingress.class":"nginx","nginx.ingress.kubernetes.io/rewrite-target":"/$2"},"name":"ingress-top","namespace":"default"},"spec":{"rules":[{"host":"top.lgthinq.com","http":{"paths":[{"backend":{"service":{"name":"nginx-svc","port":{"number":8099}}},"path":"/nginx","pathType":"Prefix"}]}}]}}
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: top-service.lgthinq.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: top-service-api-service
+            port:
+              number: 8093
+        path: /
+        pathType: Prefix
+  - host: top-common.lgthinq.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: common-api-service
+            port:
+              number: 8091
+        path: /
+        pathType: Prefix
+  - host: top-mqtt-dashboard.lgthinq.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: emqx-service
+            port:
+              number: 18083
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.177.176.100

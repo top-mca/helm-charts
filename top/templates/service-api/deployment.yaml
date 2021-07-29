@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: top-service-api-deploy
+  labels:
+    app: top-service-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: top-service-api
+      tier: pod
+  template:
+    metadata:
+      name: top-service-api-pod
+      labels:
+        app: top-service-api
+        tier: pod
+    spec:
+      containers:
+        - name:  top-service-api
+          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.serviceApi.name .Values.module.serviceApi.tag }}
+          ports:
+            - name: webserver
+              containerPort: {{ .Values.module.serviceApi.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.global.configMap }}
+          env:
+            - name: REGION
+              value: "kic"
+            - name: SERVICE_CODE
+              value: "SVC202"
+      imagePullSecrets:
+        - name: {{ .Values.global.imagePullSecrets }}

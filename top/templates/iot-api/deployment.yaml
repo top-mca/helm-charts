@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iot-api-deploy-green
+  labels:
+    app: iot-api
+    version: green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iot-api
+      version: green
+  template:
+    metadata:
+      name: iot-api-pod
+      labels:
+        app: iot-api
+        version: green
+    spec:
+      containers:
+        - name: iot-api
+          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.iotApi.name .Values.module.iotApi.tag }}
+          ports:
+            - name: webserver
+              containerPort: {{ .Values.module.iotApi.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.global.configMap }}
+      imagePullSecrets:
+        - name: {{ .Values.global.imagePullSecrets }}
