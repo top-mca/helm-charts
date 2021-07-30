@@ -36,8 +36,8 @@ module:
     port: "8095"
   simulator:
     name: "top/simulator"
-    tag: ""
-    port: ""
+    tag: "latest"
+    port: "8080"
 
 autoscaling:
   enabled: false

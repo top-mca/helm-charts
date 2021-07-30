@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulator-deploy
+  labels:
+    app: simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simulator
+  template:
+    metadata:
+      name: simulator-pod
+      labels:
+        app: simulator
+    spec:
+      containers:
+        - name: server
+          image: {{ printf "%s:%s/%s:%s" .Values.global.registryHost .Values.global.registryPort .Values.module.simulator.name .Values.module.simulator.tag }}
+          ports:
+            - name: simulator
+              containerPort:  {{ .Values.module.simulator.port }}
+      imagePullSecrets:
+        - name: {{ .Values.global.imagePullSecrets }}
