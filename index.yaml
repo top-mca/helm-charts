@@ -3,12 +3,12 @@ entries:
   top:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-08-02T11:39:52.452242+09:00"
+    created: "2021-08-02T11:50:36.070944+09:00"
     description: A Helm chart for Kubernetes
-    digest: 1c0c7167ed94181c9f98354e88ba3d2f27320479909f5d8c37ad4b7798744404
+    digest: cbebe1aad4ec90ed6a0aeebd23546a9aee865af6795fcda58391abb1f42e70aa
     name: top
     type: application
     urls:
-    - top-0.1.0.tgz
-    version: 0.1.0
-generated: "2021-08-02T11:39:52.450678+09:00"
+    - top-0.2.0.tgz
+    version: 0.2.0
+generated: "2021-08-02T11:50:36.07037+09:00"
