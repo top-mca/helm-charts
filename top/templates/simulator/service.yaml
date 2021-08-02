@@ -5,7 +5,7 @@ metadata:
 spec:
   ports:
     - name: simulator
-      port: {{ .Values.module.serviceApi.port }}
+      port: {{ .Values.module.simulator.port }}
       protocol: TCP
       targetPort: simulator
   selector:
