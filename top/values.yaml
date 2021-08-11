@@ -16,11 +16,11 @@ module:
     port: "8090"
   commonApi:
     name: "top/common-api"
-    tag: "v0.7-without-tracing"
+    tag: "redis-secret"
     port: "8091"
   dataManager:
     name: "top/data-manager"
-    tag: "v0.1"
+    tag: "redis-secret"
     port: "8092"
   serviceApi:
     name: "top/service-api"
@@ -28,7 +28,7 @@ module:
     port: "8093"
   cloudlet:
     name: "top/cloudlet"
-    tag: "without-tracing"
+    tag: "redis-secret"
     port: "8094"
   pushManager:
     name: "top/push-manager"

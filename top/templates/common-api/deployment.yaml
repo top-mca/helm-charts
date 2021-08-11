@@ -27,5 +27,11 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.global.configMap }}
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-cluster
+                  key: redis-password
       imagePullSecrets:
         - name: {{ .Values.global.imagePullSecrets }}

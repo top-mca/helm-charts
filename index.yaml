@@ -3,7 +3,17 @@ entries:
   top:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-08-10T16:57:52.678853+09:00"
+    created: "2021-08-11T14:00:41.833928+09:00"
+    description: A Helm chart for Kubernetes
+    digest: 1d3c67c18fb0b9dfc28718f427b7116840fa12cd8464b11e5d8a2688602a93ce
+    name: top
+    type: application
+    urls:
+    - top-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-08-11T14:00:41.833381+09:00"
     description: A Helm chart for Kubernetes
     digest: ca68a44bc13177c86d37a65246741505db7df9f888c72cbe7d4ce0405809ecc4
     name: top
@@ -13,7 +23,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2021-08-10T16:57:52.678298+09:00"
+    created: "2021-08-11T14:00:41.832341+09:00"
     description: A Helm chart for Kubernetes
     digest: d8fa132079b765a247e4472332c4f6ae4a60f90a40ca3c46410e6ce1fa0a4237
     name: top
@@ -21,4 +31,4 @@ entries:
     urls:
     - top-0.2.0.tgz
     version: 0.2.0
-generated: "2021-08-10T16:57:52.675517+09:00"
+generated: "2021-08-11T14:00:41.830018+09:00"
