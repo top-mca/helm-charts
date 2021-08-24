@@ -12,27 +12,27 @@ global:
 module:
   iotApi:
     name: "top/iot-api"
-    tag: "without-tracing"
+    tag: "v1.0"
     port: "8090"
   commonApi:
     name: "top/common-api"
-    tag: "redis-secret"
+    tag: "v1.0"
     port: "8091"
   dataManager:
     name: "top/data-manager"
-    tag: "redis-secret"
+    tag: "v1.0"
     port: "8092"
   serviceApi:
     name: "top/service-api"
-    tag: "without-tracing"
+    tag: "v1.0"
     port: "8093"
   cloudlet:
     name: "top/cloudlet"
-    tag: "redis-secret"
+    tag: "v1.0"
     port: "8094"
   pushManager:
     name: "top/push-manager"
-    tag: "without-tracing"
+    tag: "v1.0"
     port: "8095"
   simulator:
     name: "top/simulator"

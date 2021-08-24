@@ -38,7 +38,7 @@ data:
   MQTT_APP_PORT: "8081"
   MQTT_APP_ID: admin
   MQTT_APP_SECRET: public
-  REDIS_HOST: redis-cluster.default.svc.cluster.local
+  REDIS_HOST: redis-cluster-master.default.svc.cluster.local
   REDIS_PORT: "6379"
   MONGO_HOST: mongo-service.default.svc.cluster.local
   MONGO_PORT: "27017"
