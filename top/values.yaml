@@ -8,6 +8,7 @@ global:
   imagePullSecrets: "regcred"
   imagePullPolicy: "IfNotPresent"
   configMap: "in-cluster-config"
+  redisSecretName: "redis-cluster"
 
 module:
   iotApi:

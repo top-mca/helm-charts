@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+  annotations:
+    "helm.sh/hook": "pre-install"
+data:
+  initdb.sql: |
+    CREATE DATABASE top_common DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    use top_common;
+    CREATE TABLE `client_models` (`user_no` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `client_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `model_name` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `app_version` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `os_version` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, UNIQUE KEY `idx_user_client` (`user_no`,`client_id`), KEY `idx_user` (`user_no`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `device_models` ( `device_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `home_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `room_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `device_type` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `model_name` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `ciphertext` longtext COLLATE utf8mb4_general_ci, `extras` longtext COLLATE utf8mb4_general_ci, UNIQUE KEY `idx_device` (`device_id`), KEY `idx_home` (`home_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `home_models` ( `user_no` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `home_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `home_name` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `home_data` longtext COLLATE utf8mb4_general_ci, UNIQUE KEY `idx_user_home` (`user_no`,`home_id`), KEY `idx_user` (`user_no`), KEY `idx_home` (`home_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `room_models` ( `home_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `room_id` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `room_name` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL, `room_data` longtext COLLATE utf8mb4_general_ci, UNIQUE KEY `idx_home_room` (`home_id`,`room_id`), KEY `idx_home` (`home_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE DATABASE top_service DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    use top_service;
+    CREATE TABLE `app_module_models` ( `id` bigint unsigned NOT NULL AUTO_INCREMENT, `module_type` longtext COLLATE utf8mb4_general_ci, `app_module_ver` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `app_module_uri` longtext COLLATE utf8mb4_general_ci, `app_restart_yn` longtext COLLATE utf8mb4_general_ci, `app_module_size` longtext COLLATE utf8mb4_general_ci, `app_module_json_uri` longtext COLLATE utf8mb4_general_ci, `app_module_json_ver` longtext COLLATE utf8mb4_general_ci, `app_module_json_size` longtext COLLATE utf8mb4_general_ci, PRIMARY KEY (`id`), KEY `idx_app_module_models_app_module_ver` (`app_module_ver`) ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `device_home_models` ( `device_id` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `home_id` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `room_id` longtext COLLATE utf8mb4_general_ci, `owner_member_no` longtext COLLATE utf8mb4_general_ci, `model_name` longtext COLLATE utf8mb4_general_ci, `country_code` longtext COLLATE utf8mb4_general_ci, `sub_model_name` longtext COLLATE utf8mb4_general_ci, `sensor_type` longtext COLLATE utf8mb4_general_ci, `device_alias` longtext COLLATE utf8mb4_general_ci, `platform_type` longtext COLLATE utf8mb4_general_ci, `order_seq` bigint DEFAULT NULL, `create_user_no` longtext COLLATE utf8mb4_general_ci, `create_dt` longtext COLLATE utf8mb4_general_ci, UNIQUE KEY `idx_device_home` (`device_id`,`home_id`), KEY `idx_home` (`home_id`), KEY `idx_device` (`device_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `device_member_models` ( `device_id` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `member_no` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `member_country_code` longtext COLLATE utf8mb4_general_ci, `device_alias` longtext COLLATE utf8mb4_general_ci, `new_icon_hide_yn` longtext COLLATE utf8mb4_general_ci, `status_code` longtext COLLATE utf8mb4_general_ci, `order_seq` bigint DEFAULT NULL, `create_dt` longtext COLLATE utf8mb4_general_ci, UNIQUE KEY `idx_member_device` (`device_id`,`member_no`), KEY `idx_device` (`device_id`), KEY `idx_member` (`member_no`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `device_models` ( `device_id` varchar(191) COLLATE utf8mb4_general_ci NOT NULL, `device_type` longtext COLLATE utf8mb4_general_ci, `model_name` longtext COLLATE utf8mb4_general_ci, `sensor_type` longtext COLLATE utf8mb4_general_ci, `country_code` longtext COLLATE utf8mb4_general_ci, `remote_control_type` longtext COLLATE utf8mb4_general_ci, `sds_guide` longtext COLLATE utf8mb4_general_ci, `timezone_code` longtext COLLATE utf8mb4_general_ci, `timezone_code_alias` longtext COLLATE utf8mb4_general_ci, `area` longtext COLLATE utf8mb4_general_ci, `ss_id` longtext COLLATE utf8mb4_general_ci, `mac_address` longtext COLLATE utf8mb4_general_ci, `soft_ap_id` longtext COLLATE utf8mb4_general_ci, `soft_ap_pw` longtext COLLATE utf8mb4_general_ci, `blackbox_yn` longtext COLLATE utf8mb4_general_ci, PRIMARY KEY (`device_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `lang_pack_models` ( `id` bigint unsigned NOT NULL AUTO_INCREMENT, `lang_pack_type` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `language_code` longtext COLLATE utf8mb4_general_ci, `model_name` longtext COLLATE utf8mb4_general_ci, `device_type` longtext COLLATE utf8mb4_general_ci, `lang_pack_ver` longtext COLLATE utf8mb4_general_ci, `lang_pack_uri` longtext COLLATE utf8mb4_general_ci, PRIMARY KEY (`id`), KEY `idx_lang_pack_models_lang_pack_type` (`lang_pack_type`) ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `model_info_models` ( `id` bigint unsigned NOT NULL AUTO_INCREMENT, `model_type` longtext COLLATE utf8mb4_general_ci, `model_name` longtext COLLATE utf8mb4_general_ci, `model_type_code` longtext COLLATE utf8mb4_general_ci, `image_file_name` longtext COLLATE utf8mb4_general_ci, `image_url` longtext COLLATE utf8mb4_general_ci, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `model_json_info_models` ( `id` bigint unsigned NOT NULL AUTO_INCREMENT, `model_name` longtext COLLATE utf8mb4_general_ci, `model_json_ver` longtext COLLATE utf8mb4_general_ci, `model_json_uri` longtext COLLATE utf8mb4_general_ci, PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CREATE TABLE `push_endpoint_models` ( `member_no` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `client_id` varchar(191) COLLATE utf8mb4_general_ci DEFAULT NULL, `endpoint` longtext COLLATE utf8mb4_general_ci, `enabled` tinyint(1) DEFAULT NULL, UNIQUE KEY `idx_member_client` (`member_no`,`client_id`), KEY `idx_member` (`member_no`), KEY `idx_client` (`client_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    create user 'top_common_service_account'@'%' identified by 'onpremise';
+    grant all privileges on top_common.* to 'top_common_service_account'@'%';
+    flush privileges;
+    create user 'top_service_service_account'@'%' identified by 'onpremise';
+    grant all privileges on top_service.* to 'top_service_service_account'@'%';
+    flush privileges;
+
+    CREATE DATABASE `tqs_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;;
+    USE `tqs_db`;
+
+    DROP TABLE IF EXISTS `TB_MNGR_OPERT_HIST`;
+    CREATE TABLE `TB_MNGR_OPERT_HIST` ( `EMPNO` varchar(20) NOT NULL, `OPERT_DT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, `USER_NO` int(11) NOT NULL, `URL_SUMRY` varchar(500) DEFAULT NULL, `FNCT_NM` varchar(200) DEFAULT NULL, `USE_SQL` varchar(1200) DEFAULT NULL, PRIMARY KEY (`EMPNO`,`OPERT_DT`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_MNGR_OPERT_HIST` WRITE;
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_API_TESTER`;
+    CREATE TABLE `TB_TQS_API_TESTER` ( `user_no` int(11) DEFAULT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_API_TESTER` WRITE;
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_CMMN_CODE`;
+    CREATE TABLE `TB_TQS_CMMN_CODE` ( `GROUP_CODE_ID` varchar(3) NOT NULL, `CODE_ID` varchar(2) NOT NULL, `GROUP_CODE_NM` varchar(50) DEFAULT NULL, `CODE_NM` varchar(50) DEFAULT NULL, `UPPER_GROUP_CODE_ID` varchar(3) DEFAULT NULL, `UPPER_GROUP_CODE` varchar(2) DEFAULT NULL, `CREAT_DT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, `CHANGE_DT` datetime DEFAULT NULL, PRIMARY KEY (`GROUP_CODE_ID`,`CODE_ID`), KEY `IDX_TQS_CMMN_CODE_001` (`GROUP_CODE_ID`,`CODE_ID`), KEY `IDX_TQS_CMMN_CODE_002` (`GROUP_CODE_NM`,`CODE_NM`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_CMMN_CODE` WRITE;
+    INSERT INTO `TB_TQS_CMMN_CODE` VALUES ('001','00','상태코드','신청대기','','','2018-11-14 01:42:40','2018-11-14 01:42:40'),('001','01','상태코드','승인거부','','','2018-11-14 01:42:41','2018-11-14 01:42:41'),('001','02','상태코드','승인완료','','','2018-11-14 01:42:41','2018-11-14 01:42:41'),('001','03','상태코드','사용자삭제','','','2018-11-14 01:42:41','2018-11-14 01:42:41'),('002','00','권한코드','관리자','','','2018-11-14 01:42:41','2018-11-14 01:42:41'),('002','01','권한코드','내부개발자','','','2018-11-14 01:42:41','2018-11-14 01:42:41'),('002','02','권한코드','외부개발자','','','2018-11-14 01:42:42','2018-11-14 01:42:42');
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_CODE_REGION`;
+    CREATE TABLE `TB_TQS_CODE_REGION` ( `REGION_CODE` varchar(10) NOT NULL, `REGION_NAME` varchar(100) NOT NULL, `OAUTH_SERVER_OP` varchar(200) NOT NULL, `OAUTH_SERVER_QA` varchar(200) NOT NULL, `THINQ_SERVICE_SERVER_OP` varchar(200) NOT NULL, `THINQ_SERVICE_SERVER_QA` varchar(200) NOT NULL, PRIMARY KEY (`REGION_CODE`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_CODE_REGION` WRITE;
+    INSERT INTO `TB_TQS_CODE_REGION` VALUES ('AIC','북미','https://aic.lgeapi.com','https://qa-aic.lgeapi.com','https://aic-service.lgthinq.com:46030','https://aic-qa-service.lgthinq.com:46030'),('KIC','아시아 태평양','https://kic.lgeapi.com','https://qa-kic.lgeapi.com','https://kic-service.lgthinq.com:46030','https://kic-qa-service.lgthinq.com:46030');
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_CODE_COUNTRY`;
+    CREATE TABLE `TB_TQS_CODE_COUNTRY` ( `REGION_CODE` varchar(10) NOT NULL, `COUNTRY_CODE` varchar(10) NOT NULL, `COUNTRY_NAME` varchar(100) NOT NULL, PRIMARY KEY (`COUNTRY_CODE`), KEY `REGION_CODE` (`REGION_CODE`), CONSTRAINT `TB_TQS_CODE_COUNTRY_IBFK_1` FOREIGN KEY (`REGION_CODE`) REFERENCES `TB_TQS_CODE_REGION` (`REGION_CODE`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_CODE_COUNTRY` WRITE;
+    INSERT INTO `TB_TQS_CODE_COUNTRY` VALUES ('KIC','KR','대한민국'),('AIC','US','미국');
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_DEVICE_CNRS_INFO`;
+    CREATE TABLE `TB_TQS_DEVICE_CNRS_INFO` ( `CREAT_DT` datetime NOT NULL COMMENT '생성일', `USER_NO` int(11) NOT NULL COMMENT '기기 소유 사용자번호', `DEVICE_ID` varchar(60) NOT NULL COMMENT '디바이스 아이디', `CNRS_USER_NO` int(11) NOT NULL COMMENT '기기를 공유한 사용자번호', `STTUS` varchar(2) NOT NULL COMMENT '기기 등록 상태 코드', `CHANGE_DT` datetime NOT NULL COMMENT '수정일', PRIMARY KEY (`USER_NO`,`DEVICE_ID`,`CREAT_DT`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_DEVICE_CNRS_INFO` WRITE;
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_DEVICE_CRTFC_INFO`;
+    CREATE TABLE `TB_TQS_DEVICE_CRTFC_INFO` ( `EMP_USER_NO` varchar(128) NOT NULL DEFAULT '0', `DEVICE_ID` varchar(60) NOT NULL, `MODEL_NM` varchar(40) NOT NULL, `MQTT_URL` varchar(120) NOT NULL, `PRIVATE_KEY` varchar(4000) NOT NULL, `DEVICE_CRTFCT` varchar(4000) NOT NULL, `CREAT_DT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`EMP_USER_NO`,`DEVICE_ID`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_DEVICE_CRTFC_INFO` WRITE;
+    UNLOCK TABLES;
+
+    DROP TABLE IF EXISTS `TB_TQS_USER_BASS`;
+    CREATE TABLE `TB_TQS_USER_BASS` ( `USER_NO` int(11) NOT NULL AUTO_INCREMENT, `EMAIL` varchar(400) NOT NULL, `USER_NM` varchar(50) NOT NULL, `EMPNO` varchar(256) DEFAULT NULL, `PSITN_INFO` varchar(200) NOT NULL, `USE_PURPS` varchar(200) DEFAULT NULL, `EMP_USER_NO` varchar(256) DEFAULT NULL, `REQST_DE` varchar(8) DEFAULT NULL, `STTUS` varchar(2) NOT NULL DEFAULT '00', `STTUS_CHANGE_DT` datetime DEFAULT NULL, `USE_AUTHOR` varchar(2) NOT NULL, `CREAT_DT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, `CHANGE_DT` datetime DEFAULT NULL, `CREAT_MNGR_NO` int(11) DEFAULT NULL, `CHANGE_MNGR_NO` int(11) DEFAULT NULL, `LAST_CONECT_DT` datetime DEFAULT NULL, `COUNTRY_CODE` varchar(10) DEFAULT NULL, `REFRESH_TOKEN` varchar(100) DEFAULT NULL, `OAUTH_SERVER_URL` varchar(100) DEFAULT NULL, `USER_DEVICE_AUTH` varchar(200) DEFAULT NULL, PRIMARY KEY (`USER_NO`), KEY `IDX_TQS_USER_BASS_001` (`EMAIL`,`USER_NM`,`REQST_DE`,`PSITN_INFO`,`USE_AUTHOR`,`STTUS`), KEY `IDX_TQS_USER_BASS_002` (`EMP_USER_NO`) ) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
+    LOCK TABLES `TB_TQS_USER_BASS` WRITE;
+    INSERT INTO `TB_TQS_USER_BASS` VALUES (132,'90D468564BE94B3A52F309D7E9AE91810641C039986E39A0832E88A757048EB2','3FD8149C42C6E0D2D20CB903BB0B4161',NULL,'FB77D5CB91155C1B5235A7A5885FCAAC','CCB7B510B3688DD7DF01F07091AE8CA9','A11011886A05F0D8885210705AA9A7E9','20210525','02',NULL,'00','2021-05-25 20:33:15',NULL,NULL,NULL,'2021-05-26 15:19:05',NULL,NULL,NULL,NULL),(133,'02B5008A2D3366EF01059681D0D8F420049CD90ACB83A4F9B290C54489D6E4C6','5E181A387B8273B6801CD2C403ABF107','F28CF6AC73F6BEF81388A899CFCACDF1','537377D4C70A96DA713CAF5F50B18A1F','248D3DF67AAFE2E3401616AF52E89DB8','4C53C31ECCB676B3A4558598CDDC7707','20210526','02',NULL,'00','2021-05-26 15:33:33',NULL,NULL,NULL,'2021-05-26 15:39:28',NULL,NULL,NULL,NULL),(134,'04E5F3D76854C832CFBC25542FD71DB4049CD90ACB83A4F9B290C54489D6E4C6','1097C46937DEF65038701E816F573EB6','AD71DAB9FD39EF089250BDF2711288FE','537377D4C70A96DA713CAF5F50B18A1F','248D3DF67AAFE2E3401616AF52E89DB8','08835E1ED4B86F2F3B65D2887F788538','20210526','02',NULL,'00','2021-05-26 15:34:05',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(135,'3F8BC1AEF9AF490E7A1772DAD450D79D049CD90ACB83A4F9B290C54489D6E4C6','0090A2F4F0711FDC3828D93B4859DAEB','8CB4C2576FD9AEFA6719B89C172000AF','537377D4C70A96DA713CAF5F50B18A1F','248D3DF67AAFE2E3401616AF52E89DB8','9BB10C6F6A6AB0683AD9F26B5B0B9DD7','20210526','02',NULL,'00','2021-05-26 15:34:44',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(136,'B02F63507CE5B3C1157E68FCC00D84F3049CD90ACB83A4F9B290C54489D6E4C6','237835E2E8F53822F3D9E2476BF3FB40','8CB4C2576FD9AEFA6719B89C172000AF','537377D4C70A96DA713CAF5F50B18A1F','248D3DF67AAFE2E3401616AF52E89DB8','C2C812F4B9F0097030B2308FDC9965E8','20210526','02',NULL,'00','2021-05-26 15:35:19',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(137,'289E61705C76C95CC87A65A63A25D94297000F22CE7AB74861BD050D8139C090','E5B9AE380934386E03E36AD0AFD586BE',NULL,'D46801676381E3A77A5849892F1940A7','6D6F1128B9762D2A8FD788A9D1EC47B0','B6AAE2E261641B1EBEB787A1018F4B32','20210812','02',NULL,'00','2021-08-12 01:18:47',NULL,NULL,NULL,'2021-08-12 01:19:51',NULL,NULL,NULL,NULL);
+    UNLOCK TABLES;
+
+    create user 'tqsdbu'@'%' identified by 'tqs!2018';
+    grant all privileges on tqs_db.* to 'tqsdbu'@'%';
+    flush privileges;
+    
